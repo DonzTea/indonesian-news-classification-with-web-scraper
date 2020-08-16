@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <%- include('../partials/head.ejs') -%>
+    <style>
+      .badge {
+        position: absolute;
+        top: -15px;
+        left: -10px;
+        padding: 5px 5px;
+        border-radius: 50%;
+        background: red;
+        color: white;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body class="">
+    <div class="page">
+      <div class="page-main">
+        <%- include('../partials/header.ejs') -%>
+
+        <div class="my-3 my-md-5">
+          <div class="container">
+            <div id="container-cross-validation" class="row">
+              <div class="card">
+                <div class="card-header row mx-0 px-2">
+                  <h3 id="title-cross-validation" class="card-title col">
+                    <%= foldPerformances ? 'Hasil dari Proses ' : '' %>10 Fold
+                    Cross Validation
+                  </h3>
+                  <div class="col-auto text-right">
+                    <button
+                      id="btn-run"
+                      type="button"
+                      class="btn btn-primary m-1"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      data-placement="top"
+                      data-original-title="Mulai 10 Fold<br>Cross Validation"
+                    >
+                      <i class="fe fe-play"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="row align-items-center">
+                    <% for( let i = 0; i < 10; i++ ) { %>
+                    <div
+                      class="col-md-6 <%= i > 0 ? 'mt-5 mt-md-0' : '' %> border py-2"
+                    >
+                      <div class="row align-items-center">
+                        <div class="col text-center">Fold ke <%= i + 1 %></div>
+                        <div class="col d-flex justify-content-center">
+                          <div
+                            name="fold-circle-bar"
+                            fold-number="<%= i + 1 %>"
+                            class="position-relative"
+                            style="width: 50px; height: 50px;"
+                            accuracy="<%= foldPerformances ? foldPerformances[i].overall_accuracy : 0 %>"
+                          ></div>
+                        </div>
+                        <% if (foldPerformances) { %>
+                        <div name="detail-container" class="col text-center">
+                          <a href="/hasil-cross-validation/fold-<%= i + 1 %>">
+                            Detail
+                          </a>
+                        </div>
+                        <% } else { %>
+                        <div name="detail-container" class="col text-justify">
+                          Detail proses dapat dilihat setelah proses 10 fold
+                          cross validation selesai.
+                        </div>
+                        <% } %>
+                      </div>
+                    </div>
+                    <% } %>
+                  </div>
+                  <div
+                    id="container-btn-multi-testing"
+                    class="mt-5 collapse text-center <%= foldPerformances.length > 0 && !multiTestingPerformances ? 'show' : 'hide' %>"
+                  >
+                    <button id="btn-multi-testing" class="btn btn-primary">
+                      Multi Testing
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="container-multi-testing-process"
+              class="row collapse <%= multiTestingPerformances.length > 0 ? 'show' : 'hide' %>"
+            >
+              <div class="card">
+                <div class="card-header row mx-0 px-2">
+                  <h3 id="title-multi-testing" class="card-title col">
+                    <%= multiTestingPerformances ? 'Hasil dari Proses ' : ''
+                    %>Multi Testing
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <div class="row justify-content-center">
+                    <% for( let i = 0; i < 10; i++ ) { %>
+                    <div
+                      class="col-md-6 <%= i > 0 ? 'mt-5 mt-md-0' : '' %> px-4 pt-1 pb-5 border"
+                    >
+                      <div class="p-1 border-bottom">
+                        Fold ke <%= i + 1 %>
+                      </div>
+                      <div class="row">
+                        <div class="col-6 col-sm-3 mt-3">
+                          <div class="text-center mb-2">
+                            <small class="text-muted">
+                              Akurasi
+                            </small>
+                          </div>
+                          <div class="d-flex justify-content-center">
+                            <div
+                              name="multi-testing-accuracy"
+                              class="position-relative"
+                              value="<%= multiTestingPerformances ? multiTestingPerformances[i].overall_accuracy : 0 %>"
+                              style="width: 50px; height: 50px;"
+                            ></div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-sm-3 mt-3">
+                          <div class="text-center mb-2">
+                            <small class="text-muted">
+                              Recall
+                            </small>
+                          </div>
+                          <div class="d-flex justify-content-center">
+                            <div
+                              name="multi-testing-recall"
+                              class="position-relative"
+                              value="<%= multiTestingPerformances ? multiTestingPerformances[i].avg_recall : 0 %>"
+                              style="width: 50px; height: 50px;"
+                            ></div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-sm-3 mt-3">
+                          <div class="text-center mb-2">
+                            <small class="text-muted">
+                              Precision
+                            </small>
+                          </div>
+                          <div class="d-flex justify-content-center">
+                            <div
+                              name="multi-testing-precision"
+                              class="position-relative"
+                              value="<%= multiTestingPerformances ? multiTestingPerformances[i].avg_precision : 0 %>"
+                              style="width: 50px; height: 50px;"
+                            ></div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-sm-3 mt-3">
+                          <div class="text-center mb-2">
+                            <small class="text-muted">
+                              F1-Score
+                            </small>
+                          </div>
+                          <div class="d-flex justify-content-center">
+                            <div
+                              name="multi-testing-f1-score"
+                              class="position-relative"
+                              value="<%= multiTestingPerformances ? multiTestingPerformances[i].avg_f1_score : 0 %>"
+                              style="width: 50px; height: 50px;"
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        name="container-multi-testing-buttons"
+                        class="text-center mt-3 collapse <%= multiTestingPerformances.length > 0 ? 'show' : 'hide' %>"
+                      >
+                        <div class="d-inline position-relative">
+                          <% const rank = rankOfMultiTestingPerformances ?
+                          rankOfMultiTestingPerformances.findIndex(
+                          (fold_number) => fold_number === (i + 1) ) + 1 : 0; %>
+                          <span
+                            class="badge"
+                            data-toggle="tooltip"
+                            data-html="true"
+                            data-placement="top"
+                            data-original-title="<%= `Peringkat ${rank}<br>Akurasi Tertinggi` %>"
+                          >
+                            <%= '#' + rank %>
+                          </span>
+                          <button
+                            name="btn-multi-testing-detail"
+                            fold-number="<%= i + 1 %> "
+                            class="btn btn-secondary"
+                          >
+                            Lihat Detail
+                          </button>
+                        </div>
+                        <button
+                          name="btn-save-model"
+                          class="btn btn-success <%= bestFolds && bestFolds.includes(i + 1) ? '' : 'd-none' %>"
+                        >
+                          Simpan Model
+                        </button>
+                      </div>
+                    </div>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('../partials/footer.ejs') -%>
+    <script src="/js/views/k_fold_cross_validation.js" type="module"></script>
+  </body>
+</html>

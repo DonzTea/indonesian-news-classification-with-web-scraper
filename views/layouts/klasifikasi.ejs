@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <%- include('../partials/head.ejs') -%>
+  </head>
+
+  <body class="">
+    <div class="page">
+      <div class="page-main">
+        <%- include('../partials/header.ejs') -%>
+
+        <div class="my-3 my-md-5">
+          <div class="container">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Klasifikasi Dokumen Berita</h3>
+              </div>
+              <div class="card-body">
+                <textarea
+                  id="textarea-input"
+                  rows="10"
+                  class="form-control text-justify"
+                  placeholder="Isi Berita . . ."
+                ></textarea>
+                <div class="row flex-column-reverse flex-lg-row mt-5">
+                  <div
+                    id="classification-result"
+                    class="col-12 col-lg-auto mt-5 mt-lg-0 align-self-center"
+                  ></div>
+                  <div class="col-12 col-lg btn-list text-center text-lg-right">
+                    <button
+                      id="btn-clear"
+                      type="button"
+                      class="btn btn-secondary btn-space w-9"
+                    >
+                      Bersihkan
+                    </button>
+                    <button
+                      id="btn-submit"
+                      type="button"
+                      class="btn btn-primary btn-space w-9"
+                    >
+                      Klasifikasi
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('../partials/footer.ejs') -%>
+    <script src="/js/views/klasifikasi.js"></script>
+  </body>
+</html>

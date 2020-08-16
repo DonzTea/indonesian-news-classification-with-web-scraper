@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <%- include('../partials/head.ejs') -%>
+  </head>
+
+  <body class="">
+    <div class="page">
+      <div class="page-main">
+        <%- include('../partials/header.ejs') -%>
+
+        <div class="my-auto my-md-5">
+          <div class="container">
+            <div class="row">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Keterangan</h3>
+                </div>
+                <div class="card-body">
+                  <ul>
+                    <li>
+                      Pastikan adanya konektivitas internet untuk menggunakan
+                      fitur web scraping.
+                    </li>
+                    <li>
+                      Kategori berita yang dapat dipilih hanya kategori yang
+                      memiliki url scraping.
+                    </li>
+                    <li>
+                      Bot akan melakukan jeda selama 5 - 15 detik secara random
+                      setiap 1 kali scraping data, tujuannya agar tidak
+                      membebani server target.
+                    </li>
+                    <li>
+                      Bot akan melakukan scraping data pada url target yang
+                      tidak terdapat pada sistem.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <% if (labels.length > 0) { %>
+              <div class="card">
+                <div class="card-header row mx-0 px-2">
+                  <h3 class="card-title col">Pengaturan</h3>
+                  <div class="col-auto text-right">
+                    <button
+                      id="btn-run"
+                      type="button"
+                      class="btn btn-primary m-1"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      data-placement="top"
+                      data-original-title="Mulai Scraping Data"
+                    >
+                      <i class="fe fe-play"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="row px-5 py-3">
+                  <div class="col-auto">
+                    <div class="form-group">
+                      <label class="form-label">Jumlah Berita</label>
+                      <div class="text-center">
+                        <input
+                          id="input-total-data"
+                          type="number"
+                          class="form-control"
+                          min="1"
+                          value="10"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <div class="form-label text-center">Kategori Berita</div>
+                      <div
+                        class="custom-controls-stacked d-flex flex-wrap justify-content-center"
+                      >
+                        <% for (const [index, label] of labels.entries()) { %>
+                        <label
+                          class="custom-control custom-radio custom-control-inline"
+                        >
+                          <input type="radio" class="custom-control-input"
+                          scraping-url="<%= label.scraping_url %>"
+                          name="filter-label" value="<%=label.name %>" <%= index
+                          === 0 ? 'checked' : '' %> />
+                          <span class="custom-control-label"
+                            ><%= label.name %></span
+                          >
+                        </label>
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="card-web-scraping-result" class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Hasil Web Scraping</h3>
+                </div>
+                <div class="card-body">
+                  <div class="row px-5">
+                    <div class="col-12 col-sm text-center text-sm-left">
+                      <button
+                        id="btn-delete-checked"
+                        type="button"
+                        class="btn btn-gray m-1"
+                        data-toggle="tooltip"
+                        data-html="true"
+                        data-placement="top"
+                        data-original-title="Hapus Dokumen<br>yang ditandai"
+                        disabled="disabled"
+                      >
+                        <i class="fe fe-trash-2"></i>
+                      </button>
+                    </div>
+                    <div class="col-12 col-sm text-center text-sm-right">
+                      <button
+                        id="btn-download-data"
+                        type="button"
+                        class="btn btn-gray"
+                        data-toggle="tooltip"
+                        data-html="true"
+                        data-placement="top"
+                        data-original-title="Download Excel"
+                        disabled="disabled"
+                      >
+                        <i class="fe fe-download"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="table-responsive p-5">
+                    <table
+                      id="table"
+                      class="table table-hover card-table table-vcenter w-100"
+                    >
+                      <thead>
+                        <tr>
+                          <th class="text-center">
+                            <input type="checkbox" id="check-all" />
+                          </th>
+                          <th class="text-center">No.</th>
+                          <th class="text-center">Isi Berita</th>
+                          <th class="text-center">Kategori</th>
+                          <th class="text-center">Opsi</th>
+                        </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <% } else { %>
+              <h3 class="text-center" style="line-height: 150%;">
+                Belum ada label kategori yang memiliki url scraping sehingga
+                tidak dapat melakukan proses web scraping.<br />
+                Tambahkan label terlebih dahulu
+                <a href="/label-dan-stopword" class="text-primary">di sini</a>
+                dan pastikan mengisi url scraping untuk dapat melakukan web
+                scraping.
+              </h3>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('../partials/footer.ejs') -%>
+    <script src="/js/views/web_scraping.js" type="module"></script>
+  </body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <%- include('../partials/head.ejs') -%>
+  </head>
+
+  <body class="">
+    <div class="page">
+      <div class="page-main">
+        <%- include('../partials/header.ejs') -%>
+
+        <div class="my-3 my-md-5">
+          <div class="container">
+            <div class="card">
+              <div class="card-header row mx-0 px-3">
+                <h3
+                  class="card-title col-12 col-sm-auto text-center text-sm-left"
+                >
+                  <%= title %>
+                </h3>
+                <div class="col-12 col-sm text-center text-sm-right">
+                  ID Dokumen : <%= preprocessingResult.dataset._id %>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">Judul Berita</label>
+                  <input
+                    type="text"
+                    class="form-control mb-5"
+                    name="example-text-input"
+                    readonly="readonly"
+                    value="<%= preprocessingResult.dataset.title %>"
+                  />
+
+                  <label class="form-label">URL Berita</label>
+                  <input
+                    type="text"
+                    class="form-control mb-5"
+                    name="example-text-input"
+                    readonly="readonly"
+                    value="<%= preprocessingResult.dataset.url %>"
+                  />
+
+                  <label class="form-label">Kategori Berita</label>
+                  <input
+                    type="text"
+                    class="form-control mb-5"
+                    name="example-text-input"
+                    readonly="readonly"
+                    value="<%= preprocessingResult.dataset.label.name %>"
+                  />
+
+                  <label class="form-label">Isi Berita</label>
+                  <textarea
+                    rows="10"
+                    readonly="readonly"
+                    class="form-control text-justify"
+                  >
+<%= preprocessingResult.dataset.content %></textarea
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Hasil Proses Cleaning</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <textarea
+                    rows="10"
+                    readonly="readonly"
+                    class="form-control text-justify"
+                  >
+<%= preprocessingResult.cleaning_result %></textarea
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Hasil Proses Case Folding</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <textarea
+                    rows="10"
+                    readonly="readonly"
+                    class="form-control text-justify"
+                  >
+<%= preprocessingResult.case_folding_result %></textarea
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Hasil Proses Tokenizing</h3>
+                  </div>
+                  <div class="card-body o-auto" style="max-height: 21rem;">
+                    <ul class="list-unstyled list-separated">
+                      <% for (const [index, token] of
+                      preprocessingResult.tokenizing_result.entries()) { %>
+                      <li class="list-separated-item">
+                        <%= index + 1 %>. <%= token %>
+                      </li>
+                      <% } %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Hasil Proses Stemming</h3>
+                  </div>
+                  <div class="card-body o-auto" style="max-height: 21rem;">
+                    <ul class="list-unstyled list-separated">
+                      <% for (const [index, token] of
+                      preprocessingResult.stemming_result.entries()) { %>
+                      <li class="list-separated-item">
+                        <%= index + 1 %>. <%= token %>
+                      </li>
+                      <% } %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Hasil Proses Stopword Removal</h3>
+                  </div>
+                  <div class="card-body o-auto" style="max-height: 21rem;">
+                    <ul class="list-unstyled list-separated">
+                      <% for (const [index, token] of
+                      preprocessingResult.stopword_removal_result.entries()) {
+                      %>
+                      <li class="list-separated-item">
+                        <%= index + 1 %>. <%= token %>
+                      </li>
+                      <% } %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('../partials/footer.ejs') -%>
+  </body>
+</html>

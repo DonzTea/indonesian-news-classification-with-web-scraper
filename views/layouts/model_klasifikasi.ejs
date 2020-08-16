@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <%- include('../partials/head.ejs') -%>
+  </head>
+
+  <body class="">
+    <div class="page">
+      <div
+        class="page-main <%= priors.length > 0 ? '' : 'd-flex flex-column' %>"
+      >
+        <%- include('../partials/header.ejs') -%>
+
+        <div
+          class="<%= priors.length > 0 ? 'my-3 my-md-5' : 'flex-fill d-flex justify-content-center' %>"
+        >
+          <div
+            class="<%= priors.length > 0 ? 'container' : 'align-self-center' %>"
+          >
+            <% if (priors.length > 0) { %>
+            <div class="row">
+              <div class="col-lg-4">
+                <div id="card-performance" class="row">
+                  <div class="col-6">
+                    <div class="card">
+                      <div
+                        class="card-body d-flex flex-column justify-content-center align-items-center"
+                      >
+                        <div class="text-center mb-2 border-bottom">
+                          Akurasi<br />Keseluruhan
+                        </div>
+                        <div
+                          id="accuracy-circle-bar"
+                          class="position-relative"
+                          style="width: 100px; height: 100px;"
+                          value="<%= performance ? performance.overall_accuracy : 0 %>"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="card">
+                      <div
+                        class="card-body d-flex flex-column justify-content-center align-items-center"
+                      >
+                        <div class="text-center mb-2 border-bottom">
+                          Recall<br />Rata-Rata
+                        </div>
+                        <div
+                          id="recall-circle-bar"
+                          class="position-relative"
+                          style="width: 100px; height: 100px;"
+                          value="<%= performance ? performance.avg_recall : 0 %>"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="card">
+                      <div
+                        class="card-body d-flex flex-column justify-content-center align-items-center"
+                      >
+                        <div class="text-center mb-2 border-bottom">
+                          Precision<br />Rata-Rata
+                        </div>
+                        <div
+                          id="precision-circle-bar"
+                          class="position-relative"
+                          style="width: 100px; height: 100px;"
+                          value="<%= performance ? performance.avg_precision : 0 %>"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="card">
+                      <div
+                        class="card-body d-flex flex-column justify-content-center align-items-center"
+                      >
+                        <div class="text-center mb-2 border-bottom">
+                          F1-Score<br />Rata-Rata
+                        </div>
+                        <div
+                          id="f1-score-circle-bar"
+                          class="position-relative"
+                          style="width: 100px; height: 100px;"
+                          value="<%= performance ? performance.avg_f1_score : 0 %>"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card" style="max-height: 57vh;">
+                  <div class="card-header">
+                    <h3 class="card-title">Probabilitas Prior</h3>
+                  </div>
+                  <div class="card-body o-auto pt-3">
+                    <ul class="list-unstyled list-separated">
+                      <% for (const prior of priors) { %>
+                      <li class="list-separated-item">
+                        <div class="row align-items-center">
+                          <div class="col-auto">
+                            <div><%= prior.label %></div>
+                          </div>
+                          <div class="col text-right"><%= prior.value %></div>
+                        </div>
+                      </li>
+                      <% } %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-8">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Mean dan Standar Deviasi</h3>
+                  </div>
+                  <div class="form-group px-5 py-3 border-bottom">
+                    <label class="form-label text-center"
+                      >Filter Kategori</label
+                    >
+                    <div
+                      class="custom-controls-stacked row justify-content-center"
+                    >
+                      <% for (const [index, prior] of priors.entries()) { %>
+                      <label
+                        class="col-auto custom-control custom-radio custom-control-inline"
+                      >
+                        <input type="radio" class="custom-control-input"
+                        name="filter-label" value="<%= prior.label %>" <%= index
+                        === 0 ? 'checked' : '' %> />
+                        <span class="custom-control-label"
+                          ><%= prior.label %>
+                        </span>
+                      </label>
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="table-responsive p-5">
+                    <table
+                      id="table-classification-models"
+                      class="table table-hover card-table table-vcenter text-nowrap w-100"
+                    >
+                      <thead>
+                        <tr>
+                          <th class="text-center">No.</th>
+                          <th class="text-center">Token Kata</th>
+                          <th class="text-center">Mean</th>
+                          <th class="text-center">Standar Deviasi</th>
+                        </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">
+                      Detail Performa Model Klasifikasi
+                    </h3>
+                  </div>
+                  <% for (const [label, accuracy] of performance.accuracies) {
+                  %>
+                  <input
+                    type="hidden"
+                    name="accuracy-detail"
+                    label="<%= label %>"
+                    value="<%= accuracy %>"
+                  />
+                  <% for (const [label, recall] of performance.recalls) { %>
+                  <input
+                    type="hidden"
+                    name="recall-detail"
+                    label="<%= label %>"
+                    value="<%= recall %>"
+                  />
+                  <% } %> <% for (const [label, precision] of
+                  performance.precisions) { %>
+                  <input
+                    type="hidden"
+                    name="precision-detail"
+                    label="<%= label %>"
+                    value="<%= precision %>"
+                  />
+                  <% } %> <% } %> <% for (const [label, f1Score] of
+                  performance.f1_scores) { %>
+                  <input
+                    type="hidden"
+                    name="f1-score-detail"
+                    label="<%= label %>"
+                    value="<%= f1Score %>"
+                  />
+                  <% } %>
+                  <div class="card-body position-relative">
+                    <canvas id="canvas"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">IDF</h3>
+                  </div>
+                  <div class="card-body o-auto">
+                    <div class="table-responsive">
+                      <table
+                        id="table-idfs-list"
+                        class="table card-table table-vcenter"
+                      >
+                        <thead>
+                          <tr>
+                            <th class="text-center">No.</th>
+                            <th class="text-center">Token Kata</th>
+                            <th class="text-center">DF</th>
+                            <th class="text-center">IDF</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Model TF-IDF</h3>
+                  </div>
+                  <div class="table-responsive p-5">
+                    <table
+                      id="table-tf-idf-models"
+                      class="table card-table table-vcenter"
+                    >
+                      <thead>
+                        <tr>
+                          <th class="text-center">No.</th>
+                          <th class="text-center">Token Kata</th>
+                          <th class="text-center">TF-IDF</th>
+                        </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } else { %>
+            <h3 class="text-center" style="line-height: 150%;">
+              Belum ada model klasifikasi yang disimpan.
+            </h3>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('../partials/footer.ejs') -%> <% if(priors.length > 0) { %>
+    <script src="/js/views/model_klasifikasi.js" type="module"></script>
+    <% } %>
+  </body>
+</html>

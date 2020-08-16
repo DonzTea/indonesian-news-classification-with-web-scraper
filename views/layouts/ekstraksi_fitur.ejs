@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <%- include('../partials/head.ejs') -%>
+  </head>
+
+  <body class="">
+    <div class="page">
+      <div class="page-main">
+        <%- include('../partials/header.ejs') -%>
+
+        <div class="my-3 my-md-5">
+          <div class="container">
+            <div class="card">
+              <div class="card-header row mx-0 px-2">
+                <h3 class="card-title col">Ekstraksi Fitur</h3>
+                <div class="col-auto">
+                  <div
+                    class="page-options d-flex p-0 justify-content-center justify-content-md-end"
+                  >
+                    <div class="input-icon ml-2">
+                      <button
+                        id="btn-run"
+                        class="btn btn-primary"
+                        data-toggle="tooltip"
+                        data-html="true"
+                        data-placement="top"
+                        data-original-title="Mulai<br>Ekstraksi Fitur"
+                      >
+                        <i class="fe fe-play"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                  <div class="card-body p-3 text-center">
+                    <div class="h1 mt-4 mb-0">Token kata</div>
+                    <div class="text-muted">Training Set</div>
+                    <span
+                      class="d-inline-block my-4"
+                      tabindex="0"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      data-placement="right"
+                      data-original-title="<%= trainingToken ? '' : 'Tidak ada data<br>yang ditemukan' %>"
+                    >
+                      <button id="btn-download-training-tokens" class="btn <%= trainingToken ? 'btn-outline-info' : 'btn-gray disabled' %>">Download</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                  <div class="card-body p-3 text-center">
+                    <div class="h1 mt-4 mb-0">Token kata</div>
+                    <div class="text-muted">Testing Set</div>
+                    <span
+                      class="d-inline-block my-4"
+                      tabindex="0"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      data-placement="right"
+                      data-original-title="<%= testingToken ? '' : 'Tidak ada data<br>yang ditemukan' %>"
+                    >
+                      <button id="btn-download-testing-tokens" class="btn <%= testingToken ? 'btn-outline-info' : 'btn-gray disabled' %>">
+                        Download
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                  <div class="card-body p-3 text-center">
+                    <div class="h1 mt-4 mb-0">TF</div>
+                    <div class="text-muted">Training Set</div>
+                    <span
+                      class="d-inline-block my-4"
+                      tabindex="0"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      data-placement="right"
+                      data-original-title="<%= trainingTf ? '' : 'Tidak ada data<br>yang ditemukan' %>"
+                    >
+                      <button id="btn-download-training-tfs" class="btn <%= trainingTf ? 'btn-outline-info' : 'btn-gray disabled' %>">Download</a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                  <div class="card-body p-3 text-center">
+                    <div class="h1 mt-4 mb-0">TF</div>
+                    <div class="text-muted">Testing Set</div>
+                    <span
+                      class="d-inline-block my-4"
+                      tabindex="0"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      data-placement="right"
+                      data-original-title="<%= testingTf ? '' : 'Tidak ada data<br>yang ditemukan' %>"
+                    >
+                      <button id="btn-download-testing-tfs" class="btn <%= testingTf ? 'btn-outline-info' : 'btn-gray disabled' %>">Download</a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row justify-content-center">
+              <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                  <div class="card-body p-3 text-center">
+                    <div class="h1 mt-4 mb-0">IDF</div>
+                    <div class="text-muted">Training Set</div>
+                    <span
+                      class="d-inline-block my-4"
+                      tabindex="0"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      data-placement="right"
+                      data-original-title="<%= idf ? '' : 'Tidak ada data<br>yang ditemukan' %>"
+                    >
+                      <button id="btn-download-idfs" class="btn <%= idf ? 'btn-outline-info' : 'btn-gray disabled' %>">Download</a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                  <div class="card-body p-3 text-center">
+                    <div class="h1 mt-4 mb-0">TF-IDF</div>
+                    <div class="text-muted">Training Set</div>
+                    <span
+                      class="d-inline-block my-4"
+                      tabindex="0"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      data-placement="right"
+                      data-original-title="<%= trainingTfIdf ? '' : 'Tidak ada data<br>yang ditemukan' %>"
+                    >
+                      <button id="btn-download-training-tf-idfs" class="btn <%= trainingTfIdf ? 'btn-outline-info' : 'btn-gray disabled' %>">Download</a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                  <div class="card-body p-3 text-center">
+                    <div class="h1 mt-4 mb-0">TF-IDF</div>
+                    <div class="text-muted">Testing Set</div>
+                    <span
+                      class="d-inline-block my-4"
+                      tabindex="0"
+                      data-toggle="tooltip"
+                      data-html="true"
+                      data-placement="right"
+                      data-original-title="<%= testingTfIdf ? '' : 'Tidak ada data<br>yang ditemukan' %>"
+                    >
+                      <button id="btn-download-testing-tf-idfs" class="btn <%= testingTfIdf ? 'btn-outline-info' : 'btn-gray disabled' %>">Download</a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('../partials/footer.ejs') -%>
+    <script src="/js/views/ekstraksi_fitur.js"></script>
+  </body>
+</html>
